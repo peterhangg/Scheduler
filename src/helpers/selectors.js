@@ -21,4 +21,17 @@ const getInterview = (state, interview) => {
   return result;
 }
 
-export { getAppointmentsForDay, getInterview }
+const getInterviewersForDay = (state, day) => {
+  const result = [];
+  const filteredDay = state.days.filter(days => days.name === day);
+  if(filteredDay.length > 0) {
+    filteredDay[0].interviewers.forEach(interviewer => {
+      if(state.interviewers[interviewer]) {
+        result.push(state.interviewers[interviewer])
+      }
+    });
+  }
+  return result;
+}
+
+export { getAppointmentsForDay, getInterview, getInterviewersForDay }
