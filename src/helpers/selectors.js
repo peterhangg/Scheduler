@@ -15,9 +15,10 @@ const getInterview = (state, interview) => {
   const result = {};
   if(!interview) return null;
   for(let key in state.interviewers) {
-    result.student = interview.student
     result.interviewer = state.interviewers[key]
+    result.student = interview.student
   }
+  console.log("interviewers",result)
   return result;
 }
 
@@ -31,6 +32,7 @@ const getInterviewersForDay = (state, day) => {
       }
     });
   }
+  console.log(result)
   return result;
 }
 

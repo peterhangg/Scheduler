@@ -17,6 +17,25 @@ export default function Application(props) {
 
   const setDay = day => setState({ ...state, day });
 
+  function bookInterview(id, interview) {
+    console.log(id, interview)
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios({
+      method: 'PUT',
+      url: `/api/appointments/${id}`,
+      data: { interview }
+    })
+    .then(setState({ ...state, appointments }));
+  };
+
   // const setDays = days => setState(prev => ({ ...prev, days }));
 
   useEffect(() => {
@@ -40,6 +59,7 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
+        bookInterview={bookInterview}
       />
     );
   });
