@@ -12,15 +12,31 @@ const getAppointmentsForDay = (state, day) => {
 }
 
 const getInterview = (state, interview) => {
-  const result = {};
+  let result = {};
   if(!interview) return null;
   for(let key in state.interviewers) {
-    result.interviewer = state.interviewers[key]
-    result.student = interview.student
+    if(Number(key) === interview.interviewer) {
+      result = {
+        "student": interview.student,
+        "interviewer": {
+          "id": Number(key),
+          "name": state.interviewers[key].name,
+          "avatar": state.interviewers[key].avatar
+        }
+      }
+    }
   }
-  console.log("interviewers",result)
+  console.log("This is the interview obj:",result)
   return result;
 }
+
+// const getInterview = (state, interview) => {
+//   let interviewObj;
+//   if (interview) {
+//     interviewObj = {...interview, interviewer: state.interviewers[interview.interviewer]};
+//   }
+//   return interviewObj;
+// }
 
 const getInterviewersForDay = (state, day) => {
   const result = [];
@@ -32,7 +48,7 @@ const getInterviewersForDay = (state, day) => {
       }
     });
   }
-  console.log(result)
+  console.log("This is all the interviewers:",result)
   return result;
 }
 
