@@ -9,19 +9,19 @@ export default function useVisualMode(initial) {
   function transition(newMode, replace = false) {
     setMode(newMode)
     if(!replace) {
-      setHistory(prev => ([mode, ...prev]))
+      setHistory(prev => ([newMode, ...prev]))
     }
      // setHistory(prev => {
     //   if(replace) {
     //     prev.pop(); 
     //   }
-    //   return [...prev, mode]
+    //   return [...prev, mode]alue: { 
     // })
   }
   // allows us to go back to previous mode
   function back() {
     if(history.length === 1) {
-      return;
+      setMode(initial)
     }
     setHistory(([_,...history]) => history);
     setMode(history[0]);
