@@ -16,10 +16,8 @@ export default function Application(props) {
   });
 
   const setDay = day => setState({ ...state, day });
-
-  function bookInterview(id, interview) {
-    console.log(id, interview)
-
+  
+  const bookInterview = (id, interview) => {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -36,7 +34,22 @@ export default function Application(props) {
     .then(setState({ ...state, appointments }));
   };
 
-  // const setDays = days => setState(prev => ({ ...prev, days }));
+  const cancelInterview = (id) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { interview: null }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios({
+      method: 'DELETE',
+      url: `/api/appointments/${id}`,
+    })
+    .then(setState({ ...state, appointments }));
+  }
+
 
   useEffect(() => {
     Promise.all([
@@ -60,6 +73,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
