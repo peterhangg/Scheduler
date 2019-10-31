@@ -7,19 +7,24 @@ export default function useVisualMode(initial) {
 
   // transition from initial mode to any other node
   function transition(newMode, replace = false) {
-    if(replace) {
-      history.pop();
-    }
     setMode(newMode)
-    setHistory([...history, newMode]);
+    if(!replace) {
+      setHistory(prev => ([mode, ...prev]))
+    }
+     // setHistory(prev => {
+    //   if(replace) {
+    //     prev.pop(); 
+    //   }
+    //   return [...prev, mode]
+    // })
   }
   // allows us to go back to previous mode
   function back() {
     if(history.length === 1) {
       return;
     }
-    history.pop()
-    setMode(history[history.length - 1]);
+    setHistory(([_,...history]) => history);
+    setMode(history[0]);
   }
 
   return { mode ,transition, back };

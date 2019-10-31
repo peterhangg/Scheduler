@@ -30,7 +30,7 @@ export default function Application(props) {
       url: `/api/appointments/${id}`,
       data: { interview }
     })
-    .then(() => setState({ ...state, appointments }));
+    .then(() => setState({ ...state, appointments }))
   };
 
   const cancelInterview = (id) => {
@@ -46,7 +46,7 @@ export default function Application(props) {
       method: 'DELETE',
       url: `/api/appointments/${id}`,
     })
-    .then(() => setState({ ...state, appointments }));
+    .then(() => setState({ ...state, appointments }))
   }
 
   useEffect(() => {
