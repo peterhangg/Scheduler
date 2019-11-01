@@ -2,11 +2,15 @@ import React from "react";
 import DayList from "./DayList";
 import "components/Application.scss";
 import Appointment from "components/Appointment";
+
+// Helper functions 
 import {
   getAppointmentsForDay,
   getInterview,
   getInterviewersForDay
 } from "../helpers/selectors";
+
+// Reducer hook for state management 
 import useApplicationData from "../hooks/useApplicationData";
 
 export default function Application(props) {
@@ -30,8 +34,9 @@ export default function Application(props) {
       // returns all appointment component for every appointment from the schedule array we mapped
       <Appointment
         key={appointment.id}
-        id={appointment.id}
-        time={appointment.time}
+        // id={appointment.id}
+        // time={appointment.time}
+        {...appointment}
         interviewers={interviewers}
         interview={interview}
         bookInterview={bookInterview}
@@ -59,10 +64,8 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        <ul>
           {schedule}
           <Appointment key="last" time="5pm" />
-        </ul>
       </section>
     </main>
   );
