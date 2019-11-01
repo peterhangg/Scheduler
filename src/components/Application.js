@@ -1,8 +1,12 @@
 import React from "react";
-import DayList from "./DayList"
+import DayList from "./DayList";
 import "components/Application.scss";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay, getInterview, getInterviewersForDay }from "../helpers/selectors";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay
+} from "../helpers/selectors";
 import useApplicationData from "../hooks/useApplicationData";
 
 export default function Application(props) {
@@ -13,21 +17,28 @@ export default function Application(props) {
     cancelInterview
   } = useApplicationData();
 
+  // Retrieve an array of appointments for each day
+  const appointments = getAppointmentsForDay(state, state.day);
+  // Retrieve an array of interviewers for each day
   const interviewers = getInterviewersForDay(state, state.day);
-  const appointments = getAppointmentsForDay(state, state.day).map(
-    appointment => {
-      return (
-        <Appointment
-          key={appointment.id}
-          {...appointment}
-          interview={getInterview(state, appointment.interview)}
-          interviewers={interviewers}
-          bookInterview={bookInterview}
-          cancelInterview={cancelInterview}
-        />
-      );
-    }
-  );
+  //
+  const schedule = appointments.map(appointment => {
+    // generate a list of appointments
+    const interview = getInterview(state, appointment.interview);
+
+    return (
+      // returns all appointment component for every appointment from the schedule array we mapped
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interviewers={interviewers}
+        interview={interview}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
+      />
+    );
+  });
 
   return (
     <main className="layout">
@@ -48,10 +59,10 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        <section className="schedule">
-          {appointments}
+        <ul>
+          {schedule}
           <Appointment key="last" time="5pm" />
-        </section>
+        </ul>
       </section>
     </main>
   );
