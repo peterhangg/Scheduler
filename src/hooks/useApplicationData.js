@@ -89,7 +89,7 @@ export default function useApplicationData(props) {
     axios
       .get("/api/days")
       .then(res => dispatch({ type: SET_DAYS, value: res.data }));
-  }, [state.days]);
+  }, [state.appointments]);
 
   return { state, setDay, bookInterview, cancelInterview };
 }
