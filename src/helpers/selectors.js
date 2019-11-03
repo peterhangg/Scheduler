@@ -26,7 +26,7 @@ const getInterview = (state, interview) => {
       }
     }
   }
-  console.log("This is the interview obj:",result)
+  // console.log("This is the interview obj:",result)
   return result;
 }
 
@@ -48,7 +48,7 @@ const getInterviewersForDay = (state, day) => {
       }
     });
   }
-  console.log("This is all the interviewers:",result)
+  // console.log("This is all the interviewers:",result)
   return result;
 }
 

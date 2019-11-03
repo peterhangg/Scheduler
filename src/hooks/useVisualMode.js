@@ -20,11 +20,11 @@ export default function useVisualMode(initial) {
   }
   // allows us to go back to previous mode
   function back() {
-    if(history.length === 1) {
-      setMode(initial)
+    if(history.length > 1) {
+      setHistory(([_,...history]) => history);
+      setMode(history[0]);
     }
-    setHistory(([_,...history]) => history);
-    setMode(history[0]);
+    setMode(initial)
   }
 
   return { mode ,transition, back };
