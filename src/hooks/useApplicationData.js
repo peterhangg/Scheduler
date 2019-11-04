@@ -12,7 +12,12 @@ function reducer(state, action) {
     case SET_DAY:
       return { ...state, day: action.value };
     case SET_APPLICATION_DATA:
-      return { ...state, ...action.value };
+      return { 
+        ...state,
+        days: action.days,
+        appointments: action.appointments,
+        interviewers: action.interviewers
+      };
     case SET_INTERVIEW: {
       return { ...state, appointments: action.value };
     }
@@ -28,6 +33,7 @@ function reducer(state, action) {
 
 export default function useApplicationData(props) {
 
+  // Initialize state
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
@@ -35,6 +41,7 @@ export default function useApplicationData(props) {
     interviewers: {}
   });
 
+  // set application data on load, *similar to componentDidMount()
   useEffect(() => {
     Promise.all([
       axios.get(`/api/days`),
@@ -43,11 +50,9 @@ export default function useApplicationData(props) {
     ]).then(all => {
       dispatch({
         type: SET_APPLICATION_DATA,
-        value: {
-          days: all[0].data,
-          appointments: all[1].data,
-          interviewers: all[2].data
-        }
+        days: all[0].data,
+        appointments: all[1].data,
+        interviewers: all[2].data
       });
     });
   }, []);
@@ -64,7 +69,7 @@ export default function useApplicationData(props) {
       ...state.appointments,
       [id]: appointment
     };
-    
+    // adds the interview appointment to database when api endpoint is called
     return axios.put(`/api/appointments/${id}`, { interview }).then(res => {
       dispatch({ type: SET_INTERVIEW, value: appointments });
     });
@@ -80,13 +85,13 @@ export default function useApplicationData(props) {
       ...state.appointments,
       [id]: interview
     };
-    
+    // delete selected interview appointment from database when called api endpoint is called
     return axios.delete(`/api/appointments/${id}`).then(res => {
       dispatch({ type: SET_INTERVIEW, value: appointments });
     });
   }
 
-  //update appointment spots
+  //update appointment spots post-render * similar to componentDidUpdate()
   useEffect(() => {
     axios
       .get("/api/days")
