@@ -7,7 +7,7 @@ const SET_INTERVIEW = "SET_INTERVIEW";
 const SET_DAYS = "SET_DAYS";
 
 function reducer(state, action) {
-  console.log("This is the current state ----->", state);
+  // console.log("This is the current state ----->", state);
   switch (action.type) {
     case SET_DAY:
       return { ...state, day: action.value };

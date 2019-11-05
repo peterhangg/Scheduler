@@ -52,14 +52,14 @@ export default function Appointment(props) {
   } 
 
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
-      {mode === EMPTY && <Empty onAdd={() => transition(CREATE, true)} />}
+      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && props.interview && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          onDelete={() => transition(CONFIRM, true)}
+          onDelete={() => transition(CONFIRM)}
           onEdit={()  => transition(EDIT)}
         />
       )}
@@ -102,7 +102,6 @@ export default function Appointment(props) {
           onClose={back}
         />
       )}
-      
     </article>
   );
 }

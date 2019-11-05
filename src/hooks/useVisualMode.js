@@ -22,9 +22,9 @@ export default function useVisualMode(initial) {
   function back() {
     if(history.length > 1) {
       setHistory(([_,...history]) => history);
-      setMode(history[0]);
+      setMode(history[1]);
     }
-    setMode(initial)
+    return;
   }
 
   return { mode ,transition, back };
