@@ -82,7 +82,10 @@ export default {
       });
     }   
   }),
-  put: jest.fn(() => {
+  put: jest.fn(url => {
+    if (url === "/api/appointments/1") {
+      fixtures.days[0].spots--
+    }
     return Promise.resolve({
       status: 200,
       statusText: "OK",
