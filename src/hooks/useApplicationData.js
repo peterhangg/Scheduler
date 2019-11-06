@@ -45,26 +45,25 @@ export default function useApplicationData(props) {
 
   // adds the interview appointment to database when api endpoint is called
   function bookInterview(id, interview, remainingSpots = false) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    // when an interview is booked, 1 spot is deduced from that day
+    const days = state.days.map(day => {
+      return remainingSpots
+        ? day.id === checkDay(id)
+          ? { ...day, spots: day.spots - 1 }
+          : { ...day }
+        : { ...day };
+    });
     return axios.put(`/api/appointments/${id}`, { interview }).then(res => {
-      const appointment = {
-        ...state.appointments[id],
-        interview: { ...interview }
-      };
-
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-
-      // when an interview is booked, 1 spot is deduced from that day
-      const days = state.days.map(day => {
-        return remainingSpots
-          ? day.id === checkDay(id)
-            ? { ...day, spots: day.spots - 1 }
-            : { ...day }
-          : { ...day };
-      });
-
       dispatch({
         type: SET_INTERVIEW,
         appointments,
@@ -74,23 +73,23 @@ export default function useApplicationData(props) {
   }
   // delete selected interview appointment from database when called api endpoint is called
   function cancelInterview(id) {
+    const interview = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: interview
+    };
+
+    // when an interview is deleted, 1 spot is added to that day
+    const days = state.days.map(day => {
+      return day.id === checkDay(id)
+        ? { ...day, spots: day.spots + 1 }
+        : { ...day };
+    });
+
     return axios.delete(`/api/appointments/${id}`).then(res => {
-      const interview = {
-        ...state.appointments[id],
-        interview: null
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: interview
-      };
-
-      // when an interview is deleted, 1 spot is added to that day
-      const days = state.days.map(day => {
-        return day.id === checkDay(id)
-          ? { ...day, spots: day.spots + 1 }
-          : { ...day };
-      });
-
       dispatch({
         type: SET_INTERVIEW,
         appointments,
@@ -99,7 +98,7 @@ export default function useApplicationData(props) {
     });
   }
 
-  //update appointment spots post-render * similar to componentDidUpdate()
+  //update appointment spots post-render * similar to componentDidUpdate(). This is an alternative method to update spots, which calls the api when state.appointments changes state
   // useEffect(() => {
   //   axios
   //     .get("/api/days")
