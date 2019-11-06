@@ -38,7 +38,6 @@ describe("Application", () => {
     const appointment = appointments[0];
 
     fireEvent.click(getByAltText(appointment, "Add"));
-
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
       target: { value: "Lydia Miller-Jones" }
     });
@@ -52,8 +51,8 @@ describe("Application", () => {
 
     const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday")
-    );
 
+    );
     expect(getByText(day, "no spots remaining")).toBeInTheDocument();
   });
 
@@ -90,7 +89,7 @@ describe("Application", () => {
       queryByText(day, "Monday")
     );
 
-    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+    expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
   });
 
   it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
@@ -120,7 +119,7 @@ describe("Application", () => {
     const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday")
     );
-    expect(getByText(day, "no spots remaining")).toBeInTheDocument();
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
   });
 
   it("shows the save error when failing to save an appointment", async () => {
@@ -129,20 +128,21 @@ describe("Application", () => {
 
     // finding an existing interview.
     await waitForElement(() => getByText(container, "Archie Cohen"));
-
     const appointment = getAllByTestId(container, "appointment")[0];
 
     // edit existing appointment
     fireEvent.click(getByAltText(appointment, "Add"));
-
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
       target: { value: "Peter" }
     });
 
+    // Selects an existing interviewer
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    
     // save new appointment
     fireEvent.click(queryByText(appointment, "Save"));
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
-    await waitForElement(() => getByText(appointment, "Saving"));
+    await waitForElement(() => getByText(appointment, "Could not save appointment"));
 
     expect(
       getByText(appointment, "Could not save appointment")

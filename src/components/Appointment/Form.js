@@ -20,21 +20,13 @@ export default function Form(props) {
     props.onCancel();
   };
 
-  // error handling on form submission, user must fill out both name and select interviewer
-  // const validation = () => {
-  //   if (name && interviewer) {
-  //     setError( prev => {
-  //       props.onSave(name, interviewer);
-  //       return false
-  //     })
-  //   } else {
-  //     setError(true);
-  //   }
-  // };
-
   function validate() {
     if (name === "") {
       setError("Student name cannot be blank");
+      return;
+    }
+    if (interviewer === null) {
+      setError("An interview must be selected!");
       return;
     }
     setError("");
@@ -45,7 +37,6 @@ export default function Form(props) {
     <main className="appointment__card appointment__card--create">
     <section className="appointment__card-left">
       <form autoComplete="off" onSubmit = {event => event.preventDefault()}>
-        {/* { error && (<p>student name cannot be blank!</p>)} */}
         <section className="appointment__validation">{error}</section>
         <input
           className="appointment__create-input text--semi-bold"
