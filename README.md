@@ -6,11 +6,11 @@ Users can book an interview between Monday to Friday and have the ability to add
 ## Application Preview
 ---
 ### Create Appointment
-!["Create new appointment"](https://github.com/peterhangg/scheduler/blob/master/doc/book.gif)
+!["Create new appointment"](https://github.com/peterhangg/scheduler/blob/master/docs/book.gif)
 ### Edit Existing Appointment
-!["Edit Existing Appointment"](https://github.com/peterhangg/scheduler/blob/master/doc/edit.gif)
+!["Edit Existing Appointment"](https://github.com/peterhangg/scheduler/blob/master/docs/edit.gif)
 ### Delete Appointment
-!["Delete Appointment"](https://github.com/peterhangg/scheduler/blob/master/doc/delete.gif)
+!["Delete Appointment"](https://github.com/peterhangg/scheduler/blob/master/docs/delete.gif)
 
 ## Dependencies
 - axios
