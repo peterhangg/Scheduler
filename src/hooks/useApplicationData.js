@@ -45,35 +45,32 @@ export default function useApplicationData(props) {
 
   // adds the interview appointment to database when api endpoint is called
   function bookInterview(id, interview, remainingSpots = false) {
-    return axios
-      .put(`/appointments/${id}`, { interview })
-      .then(res => {
+    return axios.put(`/api/appointments/${id}`, { interview }).then(res => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
 
-        const appointment = {
-          ...state.appointments[id],
-          interview: { ...interview }
-        };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
 
-        const appointments = {
-          ...state.appointments,
-          [id]: appointment
-        };
-
-        // when an interview is booked, 1 spot is deduced from that day
-        const days = state.days.map(day => {
-          return remainingSpots
-            ? day.id === checkDay(id)
-              ? { ...day, spots: day.spots - 1 }
-              : { ...day }
-            : { ...day };
-        });
-
-        dispatch({
-          type: SET_INTERVIEW,
-          appointments,
-          days
-        });
+      // when an interview is booked, 1 spot is deduced from that day
+      const days = state.days.map(day => {
+        return remainingSpots
+          ? day.id === checkDay(id)
+            ? { ...day, spots: day.spots - 1 }
+            : { ...day }
+          : { ...day };
       });
+
+      dispatch({
+        type: SET_INTERVIEW,
+        appointments,
+        days
+      });
+    });
   }
   // delete selected interview appointment from database when called api endpoint is called
   function cancelInterview(id) {
