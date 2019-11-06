@@ -31,14 +31,11 @@ export default function Appointment(props) {
   );
   
   //Save the interview appointment
-  const save = (name, interviewer) => {
+  const save = (name, interviewer, remainingSpots) => {
     const interview = { student: name, interviewer };
-    // if(!interview.student || !interview.interviewer) {
-    //   transition(ERROR_SAVE, true)
-    //   return;
-    // }
+
     transition(SAVING);
-    props.bookInterview(props.id, interview)
+    props.bookInterview(props.id, interview, remainingSpots)
     .then(() => transition(SHOW))
     .catch(error => transition(ERROR_SAVE, true))
   };
@@ -70,6 +67,7 @@ export default function Appointment(props) {
           interviewers={props.interviewers}
           onSave={save}
           onCancel={back}
+          isSave={true}
         />
       )}
       { mode === SAVING && <Status message="Saving" /> }
