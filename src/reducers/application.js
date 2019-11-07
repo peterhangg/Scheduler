@@ -6,8 +6,8 @@ export const SET_INTERVIEW = "SET_INTERVIEW";
 export default function reducer(state, action) {
   // console.log("This is the current state ----->", state);
   switch (action.type) {
-    case SET_DAY:
-      return { ...state, day: action.value };
+    // case SET_DAY:
+    //   return { ...state, day: action.value };
     case SET_APPLICATION_DATA:
       return { 
         ...state,
