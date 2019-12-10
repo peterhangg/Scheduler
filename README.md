@@ -12,6 +12,9 @@ Users can book an interview between Monday to Friday and have the ability to add
 ### Delete Appointment
 !["Delete Appointment"](https://github.com/peterhangg/scheduler/blob/master/docs/delete.gif)
 
+## Getting Started
+This app must be used with the [scheduler-api](https://github.com/peterhangg/scheduler-api). Scheduler-api server must be running before starting this app.
+
 ## Dependencies
 - axios
 - classnames
